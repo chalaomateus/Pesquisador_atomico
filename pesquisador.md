@@ -215,7 +215,7 @@ relatado por terceiro**, em pelo menos uma dessas formas:
   avalia viabilidade de ferramenta em vídeo antes de escrever sobre
   isso. Nunca julgar um vídeo pelo título/thumbnail/descrição — baixar
   a transcrição de verdade via Bash: `python
-  "C:\Users\asses\.claude\skills\youtube-transcript\get_transcript.py"
+  "~/.claude/skills/youtube-transcript/get_transcript.py"
   "<url>" pt,en` e ler o conteúdo (mesma regra e mesmo script já usados
   desde 2026-08-31 pra não recomendar vídeo sem verificar — agora
   também vale como fonte ativa de busca, não só como checagem de
