@@ -35,9 +35,7 @@ frase inteira) convergem no mesmo grupo. Linha sem nenhuma citação cai
 no comportamento antigo (linha inteira, comparação exata). Re-executado
 ao vivo contra o mesmo material da Embraer após a correção: os 2 fatos
 reais (data de fundação, sede) agora saem VERIFICADO com
-confirmations=5 (os 5 provedores) — ver Task 4, seção "Correção" do
-relatório em .superpowers/sdd/2026-09-04-pesquisador-minions/task-4-report.md
-para o JSON completo do antes/depois.
+confirmations=5 (os 5 provedores).
 """
 import json
 import os
