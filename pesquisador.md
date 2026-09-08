@@ -106,8 +106,13 @@ recorrente:
   não entram por padrão numa busca geral, mesmo que a unidade atômica
   fizesse sentido pra eles, por questão de responsabilidade (decisão
   explícita do usuário). Sempre mencionar isso junto do resultado,
-  nunca esconder. Uso via `curl` na API REST da Apify (IDs de Actor
-  reais, confirmar antes de usar que ainda existem/mudaram de nome):
+  nunca esconder. **Estado real: configurado, NÃO validado com
+  extração de verdade** — token e existência dos Actors confirmados,
+  mas nunca rodado `run-sync-get-dataset-items` de fato (rodar é usar
+  a ferramenta, reservado pra "só sob pedido"). Primeira vez que for
+  usado numa busca real, tratar como primeira validação do schema de
+  saída. Uso via `curl` na API REST da Apify (IDs de Actor reais,
+  confirmar antes de usar que ainda existem/mudaram de nome):
   ```
   # Instagram (Actor automation-lab/instagram-comments-scraper)
   curl -X POST "https://api.apify.com/v2/acts/automation-lab~instagram-comments-scraper/run-sync-get-dataset-items?token=$APIFY_API_TOKEN" \
