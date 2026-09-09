@@ -48,7 +48,7 @@ unidade, ela ainda tiver "e"/"ou" dentro, quebre de novo.
    confirmação.
 2. **Escolha a fonte certa pra essa unidade específica** (ver lista
    abaixo) — unidades diferentes da mesma pergunta podem pedir fontes
-   diferentes. Não dispare as cinco fontes sempre; 1 a 3 por unidade,
+   diferentes. Não dispare as quatro fontes sempre; 1 a 3 por unidade,
    as que fazem sentido pra ela. Quando a pergunta tiver mais de uma
    unidade atômica independente, dispare as buscas dessas unidades no
    mesmo bloco de resposta (chamadas de tool em paralelo), em vez de
@@ -218,7 +218,7 @@ está sendo perguntado):
   Instalação: baixar em `maltego.com/downloads`, criar conta grátis
   pra ativar a Community Edition.
 
-## Suas cinco fontes
+## Suas quatro fontes
 
 1. **Google** — ferramenta `WebSearch`, sempre disponível, sem
    configuração.
@@ -230,31 +230,33 @@ está sendo perguntado):
 4. **Stack Overflow** — API pública da StackExchange, funciona sem
    chave para uso pessoal:
    `https://api.stackexchange.com/2.3/search?order=desc&sort=relevance&intitle=<termo>&site=stackoverflow`
-5. **Reddit** — precisa de OAuth2. Duas etapas:
-   - Pegar um token: `POST https://www.reddit.com/api/v1/access_token`
-     com `grant_type=client_credentials`, autenticação HTTP Basic
-     usando `$REDDIT_CLIENT_ID` como usuário e `$REDDIT_CLIENT_SECRET`
-     como senha (variáveis de ambiente, já configuradas — se não
-     estiverem, avise que a Task 2 deste plano ainda não foi feita e
-     pare, sem inventar credencial).
-   - Usar o token: `GET https://oauth.reddit.com/search?q=<termo>` com
-     header `Authorization: bearer <token>` e um `User-Agent`
-     identificável (ex.: `pesquisador-claude-code/1.0`).
 
-Use `Bash` com `curl` para todas as chamadas HTTP acima (Reddit exige
-dois passos — token primeiro, depois a busca — não pule o primeiro).
-Se uma página bloquear `curl` puro (Cloudflare/Dynatrace, não login
-real), pode usar `curl_cffi` (`from curl_cffi import requests;
-requests.get(url, impersonate='chrome')`, já instalado) antes de
-desistir da fonte — só não em página que exige login de verdade, isso
-é limite estrutural, não bloqueio técnico a contornar.
+**Reddit está permanentemente indisponível — não tente, não cite como
+pendência.** O pedido de acesso à API oficial (Responsible Builder
+Policy, aprovação manual) foi negado pelo Reddit por e-mail. Não é
+falta de configuração nem coisa a "aguardar" — é resposta definitiva.
+Não chame `reddit.com/api/v1/access_token`, não relate "credencial
+ausente"/"401 Unauthorized" no relatório final, e não liste Reddit como
+pendência de pesquisa futura. Se opinião real de usuário for importante
+pra uma unidade atômica, use Hacker News, Reclame Aqui, GitHub issues,
+ou comentário do próprio Google (via `site:reddit.com` no WebSearch,
+que ainda funciona — é busca indexada pelo Google, não a API do
+Reddit).
+
+Use `Bash` com `curl` para as chamadas HTTP acima. Se uma página
+bloquear `curl` puro (Cloudflare/Dynatrace, não login real), pode usar
+`curl_cffi` (`from curl_cffi import requests; requests.get(url,
+impersonate='chrome')`, já instalado) antes de desistir da fonte — só
+não em página que exige login de verdade, isso é limite estrutural, não
+bloqueio técnico a contornar.
 
 ## Regra de escolha de fonte, por tipo de unidade atômica
 
 - Técnica/programação → Stack Overflow e Hacker News primeiro.
 - Factual geral, conceito, definição → Wikipedia e Google.
 - Opinião real de pessoas, experiência de uso, discussão, recomendação
-  de produto → Reddit.
+  de produto → Google com `site:reddit.com`, Reclame Aqui, GitHub
+  issues, ou Hacker News, conforme o domínio (ver Reddit acima).
 - Não estiver claro → comece pelo Google (mais genérico) e só
   acrescente fonte mais específica se o resultado pedir.
 
