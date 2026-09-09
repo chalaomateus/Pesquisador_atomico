@@ -63,7 +63,15 @@ unidade, ela ainda tiver "e"/"ou" dentro, quebre de novo.
    nunca conta sozinho nem em dobro como confirmação de fato
    verificável — é pista/contexto de opinião real, não evidência; só
    ajuda a confirmar quando cruzado com uma fonte factual
-   (Google/Wikipedia/documentação oficial).
+   (Google/Wikipedia/documentação oficial). **Antes de rotular
+   CONFIRMADO, reler o trecho exato da fonte que sustenta a alegação —
+   não só confirmar que o link resolve e o tema bate.** Link válido e
+   relevante não é garantia de que a alegação específica está de fato
+   no texto. Pesquisa acadêmica independente (arXiv 2605.06635, "Cited
+   but Not Verified") mediu que mesmo modelos de fronteira em produtos
+   de deep research mantêm &gt;94% de links válidos mas só 39-77% de
+   precisão factual na alegação citada — link real e sobre o assunto
+   certo não significa que o texto diz o que está sendo afirmado.
 4. **Registre o veredito da unidade:** CONFIRMADO / DERRUBADO /
    INCONCLUSIVO (sem fonte suficiente) — antes de passar pra próxima.
 
