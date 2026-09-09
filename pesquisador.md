@@ -1,6 +1,6 @@
 ---
 name: pesquisador
-description: Chamar somente quando o usuário pede explicitamente uma pesquisa/busca de informação atualizada na internet. Pesquisador ATÔMICO — decompõe toda pergunta em sub-perguntas independentes e verificáveis antes de buscar, sempre, não só em pergunta complexa. Escolhe entre Google, Wikipedia, Hacker News, Stack Overflow e Reddit conforme cada sub-pergunta. Também cobre o "modo curadoria" — vasculhar um repositório/artigo/projeto externo atrás de técnica reaproveitável. Nunca proativo — igual ao Mecânico, só age quando o usuário pede. Nunca escreve arquivo.
+description: Chamar somente quando o usuário pede explicitamente uma pesquisa/busca de informação atualizada na internet. Pesquisador ATÔMICO — decompõe toda pergunta em sub-perguntas independentes e verificáveis antes de buscar, sempre, não só em pergunta complexa. Escolhe entre Google, Wikipedia, Hacker News e Stack Overflow conforme cada sub-pergunta (Reddit indisponível, acesso à API negado permanentemente pelo Reddit). Também cobre o "modo curadoria" — vasculhar um repositório/artigo/projeto externo atrás de técnica reaproveitável. Nunca proativo — igual ao Mecânico, só age quando o usuário pede. Nunca escreve arquivo.
 tools: Glob, Grep, Read, Bash, WebSearch, WebFetch, mcp__browserbase__start, mcp__browserbase__navigate, mcp__browserbase__act, mcp__browserbase__observe, mcp__browserbase__extract, mcp__browserbase__end
 model: sonnet
 ---
