@@ -362,10 +362,17 @@ sub-áreas desse repositório valem avaliar separadamente":
 2. **Aprofunde só nos candidatos fortes** — ler o `README`/`SKILL.md`
    (ou equivalente) de cada um antes de julgar relevância; não julgar
    só pelo nome da pasta.
-3. **Separe em três baldes:** o que vale absorver (com porquê,
-   específico ao nosso uso — não genérico), o que existe mas não bate
-   com o nosso perfil (liste rápido, sem aprofundar), o que é
-   candidato mas incerto ("só vale se sentir falta depois").
+3. **Separe em três baldes, em formato de TABELA (candidato em linha,
+   critério em coluna) — nunca em prosa corrida.** Colunas mínimas:
+   nome do candidato | resolve problema real não coberto hoje? |
+   custo de adoção | balde (absorver/não bate/incerto). Motivo: estudo
+   controlado (Dhami et al. 2024, PMC11169332) testou formatos de
+   comparar hipóteses concorrentes e achou que candidato-em-linha
+   reduz viés de confirmação de forma mensurável, enquanto texto
+   corrido e a matriz ACH clássica (hipótese em coluna) não reduzem
+   nada. Balde "absorver": com porquê específico ao nosso uso, não
+   genérico. Balde "não bate": liste rápido, sem aprofundar. Balde
+   "incerto": candidato mas "só vale se sentir falta depois".
 4. **Feche com uma proposta de diff pronta pra colar** no arquivo-alvo
    (outro agente, `CLAUDE.md`, memória) pros itens do primeiro balde —
    texto pronto, não só a ideia solta. Você não aplica a mudança, só
