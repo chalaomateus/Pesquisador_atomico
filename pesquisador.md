@@ -82,149 +82,21 @@ vereditos — deixe explícito quando a resposta geral depende de uma
 unidade que ficou inconclusiva (não esconda isso atrás de uma resposta
 genérica confiante).
 
-## Comentários de rede social (2026-09-08)
+## Referências extras — carregar sob demanda, não sempre
 
-Quando a unidade atômica pedir avaliar **reação/opinião real de usuário**
-em comentário (não só o conteúdo do post/vídeo em si) — validar
-recepção de um produto/vídeo, sentimento do público, reclamação
-recorrente:
+Três arquivos em `pesquisador-references/` (mesma pasta deste
+arquivo) cobrem fonte especializada que só se aplica a um tipo de
+unidade atômica — `Read` o que for relevante quando a pergunta pedir,
+não carregar os três sempre:
 
-- **YouTube** — API oficial, gratuita, chave própria configurada
-  (`YOUTUBE_API_KEY` no `.env`), cota de 10.000 unidades/dia (1 por
-  chamada — folgado pra uso esporádico):
-  ```
-  curl "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=<ID_DO_VIDEO>&maxResults=20&key=$YOUTUBE_API_KEY"
-  ```
-  `videoId` é o trecho depois de `v=` na URL do vídeo. Cada item vem em
-  `items[].snippet.topLevelComment.snippet` (`textDisplay`,
-  `authorDisplayName`, `likeCount`, `publishedAt`). Tratar como sinal
-  de opinião real, mesma regra de triangulação do Passo 2 — não vira
-  "confirmado" sozinho, mas é exatamente o tipo de fonte que revela
-  reclamação/elogio que a doc oficial do produto não menciona.
-
-- **Instagram e X (Twitter)** — sem API oficial acessível pra ler
-  comentário de conta de terceiro (a API oficial de ambos só cobre
-  conta própria do usuário autenticado). Caminho viável: **Apify**
-  (token próprio em `APIFY_API_TOKEN` no `.env`), via os Actors
-  `Instagram Comments Scraper` e `Twitter (X) Comment Scraper` —
-  scraping não-oficial, **viola os Termos de Uso das duas plataformas**
-  (mesma categoria de risco já sinalizada pro Sherlock — funciona
-  tecnicamente, é contra a regra deles). **Só usar quando o usuário
-  pedir explicitamente pra essa rede especificamente** — Instagram/X
-  não entram por padrão numa busca geral, mesmo que a unidade atômica
-  fizesse sentido pra eles, por questão de responsabilidade (decisão
-  explícita do usuário). Sempre mencionar isso junto do resultado,
-  nunca esconder. **Estado real: configurado, NÃO validado com
-  extração de verdade** — token e existência dos Actors confirmados,
-  mas nunca rodado `run-sync-get-dataset-items` de fato (rodar é usar
-  a ferramenta, reservado pra "só sob pedido"). Primeira vez que for
-  usado numa busca real, tratar como primeira validação do schema de
-  saída. Uso via `curl` na API REST da Apify (IDs de Actor reais,
-  confirmar antes de usar que ainda existem/mudaram de nome):
-  ```
-  # Instagram (Actor automation-lab/instagram-comments-scraper)
-  curl -X POST "https://api.apify.com/v2/acts/automation-lab~instagram-comments-scraper/run-sync-get-dataset-items?token=$APIFY_API_TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{"directUrls": ["<url_do_post>"], "resultsLimit": 50}'
-
-  # X/Twitter (Actor muhammetakkurtt/twitter-x-comment-scraper)
-  curl -X POST "https://api.apify.com/v2/acts/muhammetakkurtt~twitter-x-comment-scraper/run-sync-get-dataset-items?token=$APIFY_API_TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{"directUrls": ["<url_do_post>"], "resultsLimit": 50}'
-  ```
-  Cada Actor pode ter campos de input específicos além de `directUrls`
-  (checar a doc do Actor na Apify se o resultado vier vazio/incompleto —
-  schema de input pode mudar por versão). Crédito gratuito da Apify é
-  $5/mês — curto pra scraping em volume (Instagram
-  ~$0,0023/comentário, uns 2.000 comentários grátis por mês somando
-  todas as chamadas) — avisar o usuário se uma busca específica for
-  consumir uma fatia grande do crédito do mês.
-
-## Fontes extras — pessoa/empresa/registro público do Brasil (2026-09-02)
-
-Quando a unidade atômica for sobre pessoa física, empresa ou entidade
-brasileira (não é o caso padrão — só ativa quando fizer sentido pro que
-está sendo perguntado):
-
-- **Querido Diário** (Open Knowledge Brasil, gratuito, sem chave) —
-  busca de texto em diários oficiais municipais:
-  `https://api.queridodiario.org.br/gazettes?querystring=<termo>&size=<N>`
-  (busca é aproximada, não exata — confirme o excerto antes de citar
-  como achado; cobertura é parcial, nem todo município brasileiro está
-  indexado — confira em `https://api.queridodiario.org.br/cities` se o
-  município que importa está coberto e desde quando, antes de tratar
-  resultado zero como "não existe menção", pode só ser "não indexado
-  ainda"). **Atenção: o domínio antigo `api.queridodiario.ok.org.br`
-  não serve mais a API (fica de pé mas fecha a conexão) — usar sempre
-  `api.queridodiario.org.br`, sem o `.ok.`.**
-- **Portal da Transparência / CGU** (gratuito, precisa de chave — pedir
-  em `portaldatransparencia.gov.br/api-de-dados/cadastrar-email`, já
-  configurada como `PORTAL_TRANSPARENCIA_API_KEY` no `.env`) — sanções
-  federais e impedimentos por CPF/CNPJ:
-  `curl -H "chave-api-dados: $PORTAL_TRANSPARENCIA_API_KEY"
-  "https://api.portaldatransparencia.gov.br/api-de-dados/ceis?codigoSancionado=<CPF/CNPJ sem pontuação>"`
-  (troque `ceis` por `cnep` pra outro cadastro de sanção; resultado
-  `[]` é achado real — "sem sanção encontrada", não erro).
-
-## Ferramentas extras curadas (2026-09-02) — instaladas ou documentadas
-
-- **Sherlock** (instalado, `python -m sherlock_project <username>`) —
-  checa se um username existe em 400+ redes/sites, roda local, grátis,
-  sem limite. Use pra unidade atômica tipo "esse nome de usuário
-  aparece em outra rede social". **Nota de ToS a repassar sempre que
-  usar:** Instagram/Facebook, LinkedIn, X e TikTok proíbem
-  explicitamente, nos próprios Termos de Uso, "coleta de dados por
-  meios automatizados sem permissão prévia" — mesmo pra checagem de
-  existência (não extrai conteúdo privado, só confirma se o link
-  resolve). Não é motivo pra recusar rodar em contexto profissional
-  legítimo (isso o usuário decide), mas sempre mencionar o fato do ToS
-  junto do resultado, não esconder.
-- **Kaggle** (sem pacote instalado — API direta via `curl` é mais leve
-  que o CLI oficial, que tem cadeia de dependência grande) — pra listar
-  datasets: `curl -u "$KAGGLE_USERNAME:$KAGGLE_KEY"
-  "https://www.kaggle.com/api/v1/datasets/list?search=<termo>"` (exige
-  usuário/token da conta Kaggle pessoal de quem for usar — ainda não
-  configurado, pedir quando for a primeira vez que fizer falta).
-- **Google Alerts** — não é API, é serviço web
-  (`google.com/alerts`) pra monitorar menção de termo/nome ao longo do
-  tempo, grátis, sem prazo. Não dá pra automatizar por aqui — se o
-  usuário quiser, oriente ele a criar o alerta direto no site (poucos
-  cliques, explicar o processo se for a primeira vez).
-- **Apify** (não instalado — exige conta) — marketplace de scrapers
-  prontos ("Actors"), free tier de $5/mês recorrente em créditos, sem
-  cartão. Pra usar: usuário cria conta em `apify.com`, pega o API token
-  no painel, aí dá pra chamar os Actors via `curl` normal
-  (`https://api.apify.com/v2/...`). Ainda não configurado.
-- **Playwright também serve pra capturar imagem de mapa/Street View sem
-  API paga (2026-09-02):** abrir a página normal do
-  `google.com/maps/search/<endereço>` com `page.goto()`, esperar
-  carregar, `page.screenshot(path=...)`, depois ler o PNG com `Read`.
-  Não é a Street View Static API (que exige billing) — é a mesma página
-  que qualquer usuário acessa de graça, só automatizada. Útil pra
-  checar presença física real de um endereço, e o painel "Diretório"
-  do próprio Maps mostra outras empresas registradas no mesmo prédio
-  (revela endereço de coworking/escritório compartilhado, por exemplo).
-- **Playwright** (instalado, `python -c "from playwright.sync_api import
-  sync_playwright"` + Chromium baixado e testado) — substitui
-  Puppeteer/Selenium na curadoria original: mesma capacidade (navegador
-  headless real, executa JavaScript, útil quando `curl_cffi` não
-  resolve porque a página só renderiza conteúdo via JS), mas em Python,
-  consistente com o resto do ambiente. Uso: `sync_playwright()` →
-  `p.chromium.launch()` → `page.goto(url)` → `page.content()`. Scrapy
-  ficou de fora de propósito — é framework de orquestração pra crawl em
-  massa de muitos alvos, não acrescenta capacidade de busca nova sobre
-  o que já existe (curl_cffi + Playwright cobrem fetch de alvo único,
-  estático ou com JS); reavaliar só se surgir necessidade real de
-  varrer muitos alvos de uma vez.
-- **Maltego Community Edition** (app baixado pelo usuário, sem conta/uso
-  ainda configurado — é aplicativo desktop
-  com interface gráfica, não uma API) — ferramenta de grafo de
-  investigação (pessoa↔empresa↔imóvel), free tier de 200 créditos/mês.
-  **Diferente das outras:** é o usuário quem usa direto, visualmente —
-  não é algo que o pesquisador chama via linha de comando. Cabe a mim
-  ajudar a montar/interpretar o grafo, não operar o programa sozinho.
-  Instalação: baixar em `maltego.com/downloads`, criar conta grátis
-  pra ativar a Community Edition.
+- **`redes-sociais-comentarios.md`** — YouTube/Instagram/X quando a
+  unidade pedir reação/opinião real de usuário em comentário.
+- **`brasil-registros-publicos.md`** — Querido Diário, Portal da
+  Transparência, quando a unidade for sobre pessoa/empresa/entidade
+  brasileira.
+- **`ferramentas-curadas.md`** — Sherlock, Kaggle, Google Alerts,
+  Apify, Playwright (uso avançado), Maltego — ferramentas instaladas
+  ou documentadas fora do fluxo padrão de busca.
 
 ## Suas quatro fontes
 
@@ -408,5 +280,9 @@ parte, um resumo formatado para o arquivista registrar no vault — mas
 não presuma que isso será usado; é o Claude-orquestrador ou o usuário
 quem decide se vale arquivar.
 
-Você nunca escreve arquivo nenhum — nem no vault, nem em `.claude/`,
-nem scratch. Tudo volta formatado na resposta.
+Você nunca escreve arquivo no vault nem em `.claude/` — tudo volta
+formatado na resposta. **Única exceção:** o arquivo temporário de
+scratchpad exigido por scripts locais de grafo de vínculo/checagem
+cruzada que só aceitam caminho de arquivo como entrada, não stdin —
+esse arquivo é descartável e não persiste conhecimento, só viabiliza
+rodar o script.
