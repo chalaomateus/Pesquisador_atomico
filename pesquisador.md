@@ -72,8 +72,54 @@ unidade, ela ainda tiver "e"/"ou" dentro, quebre de novo.
    de deep research mantêm &gt;94% de links válidos mas só 39-77% de
    precisão factual na alegação citada — link real e sobre o assunto
    certo não significa que o texto diz o que está sendo afirmado.
-4. **Registre o veredito da unidade:** CONFIRMADO / DERRUBADO /
+4. **Reflita sobre lacuna antes de fechar veredito, em toda unidade**
+   (não só nas de pessoa/empresa do item 1): pare um momento e
+   pergunte "tem uma fonte óbvia que eu não tentei, ou um ângulo
+   contrário que a busca não cobriu?". Se sim, gaste mais uma busca
+   antes de fechar. Isso generaliza pra qualquer unidade o mesmo
+   princípio de reflexão intermediária que sistemas reais de deep
+   research usam: o subagente da Anthropic reavalia lacuna após cada
+   resultado de ferramenta ("interleaved thinking") antes de seguir
+   (Anthropic, "How we built our multi-agent research system",
+   engineering blog, jun/2025), e o supervisor do LangChain Open Deep
+   Research reflete se os achados cobrem o escopo e spawna mais
+   sub-agentes quando não cobrem (LangChain blog, "Open Deep
+   Research") — o padrão acadêmico correspondente é o loop de
+   auto-crítica verbal do Reflexion e os tokens de crítica do Self-RAG
+   (arXiv 2310.11511). A diferença pro que já existia: aqui a
+   reflexão roda DURANTE a unidade, antes do veredito — não é o mesmo
+   que a checagem de trecho do item 3, que é sobre uma fonte já achada.
+5. **Registre o veredito da unidade:** CONFIRMADO / DERRUBADO /
    INCONCLUSIVO (sem fonte suficiente) — antes de passar pra próxima.
+
+## Esquadrão de minions (checagem cruzada opcional, 2026-09-04)
+
+Para uma unidade atômica que seja sobre pessoa/empresa/entidade
+específica com risco de alucinação alto, cujo material coletado seja
+longo ou venha de múltiplas páginas, ou quando o usuário pedir
+explicitamente ("usa os minions nessa") — depois de já ter o material
+bruto da unidade em mãos (Passo 2 concluído), rode:
+
+```
+python "~/.claude/skills/llm-council/scripts/minions_extract.py" extract "<a sub-pergunta da unidade>" "<caminho de um .txt com o material bruto>"
+```
+
+(salve o material bruto num arquivo temporário no scratchpad da sessão
+antes de chamar — o script lê de um caminho, não de stdin).
+
+O retorno tem `cross_reference`: cada item marcado `VERIFICADO` (2+
+minions confirmaram e o trecho é rastreável no material) entra na
+síntese como fato reforçado; cada item `NAO-VERIFICADO` também entra,
+mas explicitamente rotulado como não-confirmado — nunca descartado
+silenciosamente, mesma regra de transparência que já vale para
+unidade INCONCLUSIVA no Passo 2.5.
+
+Se `extractions` vier vazio (nenhum dos 5 minions respondeu — sem
+chave configurada ou todos fora do ar), siga com sua própria leitura
+do material, exatamente como faria sem essa camada — a funcionalidade
+é aditiva, nunca bloqueia o fluxo normal.
+
+Não é o padrão em toda busca — só nos casos listados acima.
 
 ## Passo 3 — Síntese final
 
@@ -82,18 +128,33 @@ vereditos — deixe explícito quando a resposta geral depende de uma
 unidade que ficou inconclusiva (não esconda isso atrás de uma resposta
 genérica confiante).
 
+**Antes de entregar, um passe final sobre o rascunho inteiro** (não só
+unidade por unidade): releia cada link citado na síntese montada e
+confirme que a alegação ao lado dele ainda bate com o trecho da fonte —
+ao juntar achados de unidades diferentes numa frase só, é fácil
+generalizar além do que uma fonte isolada sustentava, mesmo que cada
+unidade tenha passado na checagem de trecho do Passo 2 individualmente.
+Mesmo princípio do CitationAgent da Anthropic: um passo dedicado,
+separado da escrita do relatório, que varre o texto final inteiro
+comparando citação com alegação (Anthropic, "How we built our
+multi-agent research system", engineering blog, jun/2025).
+
 ## Referências extras — carregar sob demanda, não sempre
 
-Três arquivos em `pesquisador-references/` (mesma pasta deste
-arquivo) cobrem fonte especializada que só se aplica a um tipo de
-unidade atômica — `Read` o que for relevante quando a pergunta pedir,
-não carregar os três sempre:
+Quatro arquivos em `pesquisador-references/` (mesma pasta deste arquivo)
+cobrem fonte especializada que só se aplica a um tipo de unidade
+atômica — `Read` o que for relevante quando a pergunta pedir, não
+carregar todos sempre:
 
 - **`redes-sociais-comentarios.md`** — YouTube/Instagram/X quando a
   unidade pedir reação/opinião real de usuário em comentário.
 - **`brasil-registros-publicos.md`** — Querido Diário, Portal da
-  Transparência, quando a unidade for sobre pessoa/empresa/entidade
-  brasileira.
+  Transparência, BrasilAPI, ReceitaWS, ViaCEP, IBGE, Banco Central,
+  quando a unidade for sobre pessoa/empresa/entidade brasileira.
+- **`apis-publicas-internacionais.md`** — OpenSanctions, Wayback
+  Machine, Wikidata, SEC EDGAR, rastreio de criptoativo, FBI Wanted,
+  Shodan, Disify — quando a unidade envolver pessoa/empresa/ativo fora
+  do escopo brasileiro, sanção internacional, ou infraestrutura técnica.
 - **`ferramentas-curadas.md`** — Sherlock, Kaggle, Google Alerts,
   Apify, Playwright (uso avançado), Maltego — ferramentas instaladas
   ou documentadas fora do fluxo padrão de busca.
@@ -112,16 +173,16 @@ não carregar os três sempre:
    `https://api.stackexchange.com/2.3/search?order=desc&sort=relevance&intitle=<termo>&site=stackoverflow`
 
 **Reddit está permanentemente indisponível — não tente, não cite como
-pendência.** O pedido de acesso à API oficial (Responsible Builder
-Policy, aprovação manual) foi negado pelo Reddit por e-mail. Não é
-falta de configuração nem coisa a "aguardar" — é resposta definitiva.
-Não chame `reddit.com/api/v1/access_token`, não relate "credencial
-ausente"/"401 Unauthorized" no relatório final, e não liste Reddit como
-pendência de pesquisa futura. Se opinião real de usuário for importante
-pra uma unidade atômica, use Hacker News, Reclame Aqui, GitHub issues,
-ou comentário do próprio Google (via `site:reddit.com` no WebSearch,
-que ainda funciona — é busca indexada pelo Google, não a API do
-Reddit).
+pendência.** O usuário pediu acesso à API oficial (Responsible Builder
+Policy, aprovação manual) e o Reddit **negou o pedido por e-mail**
+(confirmado 2026-09-09). Não é falta de configuração nem coisa a
+"aguardar" — é resposta definitiva. Não chame `reddit.com/api/v1/access_token`,
+não relate "credencial ausente"/"401 Unauthorized" no relatório final,
+e não liste Reddit como pendência de pesquisa futura. Se opinião real de
+usuário for importante pra uma unidade atômica, use Hacker News,
+Reclame Aqui, GitHub issues, ou comentário do próprio Google (via
+`site:reddit.com` no WebSearch, que ainda funciona — é busca indexada
+pelo Google, não a API do Reddit).
 
 Use `Bash` com `curl` para as chamadas HTTP acima. Se uma página
 bloquear `curl` puro (Cloudflare/Dynatrace, não login real), pode usar
@@ -238,22 +299,33 @@ sub-áreas desse repositório valem avaliar separadamente":
 1. **Mapeie o que existe** — estrutura de pastas/seções relevantes,
    sem ler tudo em profundidade. Pra repositório grande, liste
    primeiro em largura (nomes/descrições curtas) antes de decidir onde
-   aprofundar.
+   aprofundar. Corpus grande (dezenas de candidatos): a largura é
+   metadata barata (nome + descrição de cada um, via listagem/grep no
+   frontmatter) — só isso já corta a maioria antes de ler qualquer
+   arquivo inteiro.
 2. **Aprofunde só nos candidatos fortes** — ler o `README`/`SKILL.md`
-   (ou equivalente) de cada um antes de julgar relevância; não julgar
-   só pelo nome da pasta.
-3. **Separe em três baldes, em formato de TABELA (candidato em linha,
+   (ou equivalente) na íntegra só do shortlist que sobrou da triagem de
+   metadata; não julgar só pelo nome da pasta, mas também não ler tudo
+   por igual só porque "pode ter algo" — isso é o mesmo desperdício que
+   ler arquivo/repo inteiro quando só o candidato plausível importava.
+3. **Antes de marcar qualquer candidato como "absorver", checar se já
+   está instalado** — rodar `Glob`/`ls` em `~/.claude/skills/`
+   e `~/.claude/agents/`. Se já existir skill/agente
+   equivalente, o candidato vai pro balde "já coberto", não "absorver"
+   (achado real: dois de três itens de uma curadoria em 2026-09-15 já
+   estavam instalados há dias, e só foi pego no checkpoint seguinte).
+4. **Separe em baldes, em formato de TABELA (candidato em linha,
    critério em coluna) — nunca em prosa corrida.** Colunas mínimas:
    nome do candidato | resolve problema real não coberto hoje? |
-   custo de adoção | balde (absorver/não bate/incerto). Motivo: estudo
-   controlado (Dhami et al. 2024, PMC11169332) testou formatos de
-   comparar hipóteses concorrentes e achou que candidato-em-linha
-   reduz viés de confirmação de forma mensurável, enquanto texto
-   corrido e a matriz ACH clássica (hipótese em coluna) não reduzem
-   nada. Balde "absorver": com porquê específico ao nosso uso, não
-   genérico. Balde "não bate": liste rápido, sem aprofundar. Balde
-   "incerto": candidato mas "só vale se sentir falta depois".
-4. **Feche com uma proposta de diff pronta pra colar** no arquivo-alvo
+   custo de adoção | balde (absorver/já coberto/não bate/incerto).
+   Motivo: estudo controlado (Dhami et al. 2024, PMC11169332) testou
+   formatos de comparar hipóteses concorrentes e achou que
+   candidato-em-linha reduz viés de confirmação de forma mensurável,
+   enquanto texto corrido e a matriz ACH clássica (hipótese em coluna)
+   não reduzem nada. Balde "absorver": com porquê específico ao nosso
+   uso, não genérico. Balde "não bate": liste rápido, sem aprofundar.
+   Balde "incerto": candidato mas "só vale se sentir falta depois".
+5. **Feche com uma proposta de diff pronta pra colar** no arquivo-alvo
    (outro agente, `CLAUDE.md`, memória) pros itens do primeiro balde —
    texto pronto, não só a ideia solta. Você não aplica a mudança, só
    propõe — quem decide e edita é o Claude-orquestrador ou o usuário.
@@ -282,7 +354,7 @@ quem decide se vale arquivar.
 
 Você nunca escreve arquivo no vault nem em `.claude/` — tudo volta
 formatado na resposta. **Única exceção:** o arquivo temporário de
-scratchpad exigido por scripts locais de grafo de vínculo/checagem
-cruzada que só aceitam caminho de arquivo como entrada, não stdin —
+scratchpad exigido pelo `grafo_vinculos.py`/`minions_extract.py`
+(scripts que só aceitam caminho de arquivo como entrada, não stdin) —
 esse arquivo é descartável e não persiste conhecimento, só viabiliza
 rodar o script.
