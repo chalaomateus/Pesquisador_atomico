@@ -28,7 +28,7 @@
   no painel, aí dá pra chamar os Actors via `curl` normal
   (`https://api.apify.com/v2/...`). Ainda não configurado.
 - **Playwright também serve pra capturar imagem de mapa/Street View sem
-  API paga:** abrir a página normal do
+  API paga (2026-09-02):** abrir a página normal do
   `google.com/maps/search/<endereço>` com `page.goto()`, esperar
   carregar, `page.screenshot(path=...)`, depois ler o PNG com `Read`.
   Não é a Street View Static API (que exige billing) — é a mesma página
@@ -57,3 +57,41 @@
   ajudar a montar/interpretar o grafo, não operar o programa sozinho.
   Instalação: baixar em `maltego.com/downloads`, criar conta grátis
   pra ativar a Community Edition.
+- **skills.sh** (diretório de skills de agente de IA, sem auth pra busca
+  — pesquisado a fundo em 2026-09-11/13) — usar em "modo curadoria"
+  quando o usuário pedir pra achar skill/técnica pronta antes de propor
+  construir algo do zero. Catálogo real (não os "9.745" ou "1,4M" que
+  aparecem na home — aquilo é métrica agregada de instalação, não
+  contagem de skill): estava em 9.818 em 2026-09-13, crescendo, e uma
+  varredura de categorias novas (mídia/IA generativa, frontend, infra)
+  revelou milhares de itens nunca antes buscados — **não existe "100%
+  coberto" estável, é um catálogo vivo e maior do que parece à primeira
+  vista.**
+  - **Busca:** `GET https://www.skills.sh/api/search?q=<termo>&limit=200`
+    — sem autenticação. Query de **2+ palavras ativa busca semântica**
+    (a doc oficial confirma: 1 palavra = fuzzy match, 2+ palavras =
+    semantic search) — sempre preferir frase curta descrevendo a
+    necessidade ("extract text from PDF") a palavra solta ("pdf").
+    `limit` vai até 200 (default sem o parâmetro é só 100 — sempre
+    passar `&limit=200` explícito).
+  - **Auditoria de confiabilidade/segurança, sem autenticação:**
+    `GET https://www.skills.sh/api/v1/skills/audit/{source}/{skill}` —
+    agrega 5 parceiros reais (Gen Agent Trust Hub, Socket, Snyk,
+    Runlayer, ZeroLeaks). Testado e confiável — differenciou risco de
+    verdade em mais de uma rodada (achou skill com homóglifo em nome de
+    classe, técnica de evasão de scanner, apesar de ~6k instalações).
+    **Sempre rodar antes de recomendar absorver qualquer skill nova
+    encontrada por aqui**, não confiar só em contagem de instalação.
+  - **Categoria "Official"** (vendor de primeira parte, curada):
+    `https://www.skills.sh/official` embute o JSON completo no HTML
+    server-rendered, sem precisar de auth nem paginação — pega tudo de
+    uma vez.
+  - **Cobertura sistemática exaustiva exige token OIDC da Vercel**
+    (rota documentada `/api/v1/skills?page=N`) — o usuário não tem
+    conta Vercel vinculada; decisão dele criar uma ou não, não presumir.
+    Sem o token, a via é só busca por frase — item acima já cobre como
+    fazer isso da forma mais eficiente possível.
+  - **Não tentar mais "fechar 100%" por padrão** — o catálogo é maior e
+    mais vivo do que qualquer contagem fixa sugere. Buscar por
+    necessidade real quando o usuário pedir algo específico é mais
+    eficiente que tentar mineração exaustiva de novo.
