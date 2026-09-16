@@ -18,7 +18,7 @@ unidades independentes, cada uma resolvida e rotulada separadamente.
 
 1. **Decompõe** a pergunta em unidades atômicas verificáveis
 2. **Escolhe a fonte certa por unidade** — Google, Wikipedia, Hacker
-   News, Stack Overflow ou Reddit, conforme o tipo de pergunta
+   News ou Stack Overflow, conforme o tipo de pergunta
 3. **Triangula com peso de fonte**, não só contagem — fórum/rede social
    nunca confirma fato sozinho
 4. **Registra veredito por unidade** antes de montar a síntese final
@@ -77,13 +77,15 @@ local (que carrega fingerprint de automação detectável).
 
 ## Instalação (Claude Code)
 
-Copie `pesquisador.md` para `~/.claude/agents/pesquisador.md` (ou
-`.claude/agents/` do seu projeto). Requer as tools `WebSearch`,
-`WebFetch` e `Bash` liberadas para o agente.
+Copie `pesquisador.md` **e** a pasta `pesquisador-references/` para
+`~/.claude/agents/` (ou `.claude/agents/` do seu projeto) — o agente lê
+os arquivos dessa pasta sob demanda, conforme o tipo de unidade
+atômica. Requer as tools `WebSearch`, `WebFetch` e `Bash` liberadas
+para o agente.
 
-Fontes que exigem chave (opcionais, o agente funciona sem elas —
-menos essas fontes ficam indisponíveis):
-- Reddit: `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` (OAuth2)
+Reddit está fora das fontes por decisão definitiva do próprio Reddit
+(pedido de acesso à API oficial negado permanentemente) — não é
+configuração pendente, não precisa de chave pra isso.
 
 Recursos avançados (opcionais, cada um com sua própria dependência):
 - **Esquadrão de minions**: os scripts já estão inclusos neste
