@@ -57,6 +57,39 @@
   ajudar a montar/interpretar o grafo, não operar o programa sozinho.
   Instalação: baixar em `maltego.com/downloads`, criar conta grátis
   pra ativar a Community Edition.
+- **E-mail e pessoa — absorvido 2026-09-21, curadoria item-a-item de
+  start.me/osint4all (289 itens catalogados, ver
+  [[reference_ferramentas_investigacao]] pro veredito completo):**
+  - **Epieos** (`https://epieos.com/`) — reverse email lookup: 1 e-mail
+    → perfil social agregado em 140+ plataformas (Google, Skype,
+    LinkedIn, Strava, Gravatar etc.), grátis, sem cadastro. Use quando
+    a unidade atômica for "que contas/redes esse e-mail usa" — vai
+    além do que `holehe` confirma um serviço de cada vez.
+  - **EmailRep.io** (`https://emailrep.io/`) — API de reputação de
+    e-mail: risk score, exposição em breach, sinal de uso suspeito,
+    presença social, tudo num JSON. Use como triagem rápida antes de
+    aprofundar numa unidade sobre e-mail específico.
+  - **Phonebook.cz** (parte da Intelligence X, verificado via
+    `kb.offsec.nl`) — a partir de um domínio de empresa, varre e-mails/
+    subdomínios/URLs ligados a ele cruzando dado de breach. Use quando
+    a unidade for "e-mails corporativos vazados desse domínio".
+  - **SynapsInt** (verificado via `osintlibrary.com/tools/synapsint`)
+    — interface única que aceita e-mail, domínio, IP, telefone,
+    username ou carteira BTC e agrega WHOIS/DNS/subdomínio/pastes/redes
+    sociais num resultado só. Use quando o indício inicial for vago
+    (não sabe ainda se é pessoa, domínio ou telefone).
+  - **WebMii** — motor de "pegada digital por nome": agrega menções na
+    web + redes sociais por nome de pessoa, sem cadastro. Diferente do
+    `IntelTechniques` (mapa de links manual), faz busca ativa. Use
+    quando a unidade for sobre pessoa física e o e-mail/username ainda
+    não é conhecido, só o nome.
+  - **socialscan** (`https://github.com/iojw/socialscan`, pip install)
+    — confirma e-mail/username em uso consultando direto o servidor de
+    registro da plataforma (não a página pública), sem falso
+    positivo/negativo — pega perfil privado/oculto que `sherlock` não
+    pega. Cobertura menor que Sherlock (Instagram, Twitter, GitHub,
+    Tumblr, Lastfm, Snapchat, GitLab, Reddit, Yahoo, Pinterest,
+    Firefox) — usar como complemento, não substituto.
 - **skills.sh** (diretório de skills de agente de IA, sem auth pra busca
   — pesquisado a fundo em 2026-09-11/13) — usar em "modo curadoria"
   quando o usuário pedir pra achar skill/técnica pronta antes de propor

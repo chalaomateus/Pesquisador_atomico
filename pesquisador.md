@@ -139,9 +139,21 @@ separado da escrita do relatório, que varre o texto final inteiro
 comparando citação com alegação (Anthropic, "How we built our
 multi-agent research system", engineering blog, jun/2025).
 
+**Verificação a frio, quando a busca tiver porte médio/grande (3+
+unidades atômicas ou material longo) — absorvido de `deepseek-harness`
+e `open-multi-agent`, 2026-09-17:** o output bruto de cada tool call já
+é, por natureza, o "log bruto" — a diferença aqui é reler ESSE output
+de novo, isolado, antes do passe final acima, sem olhar a frase que
+você já escreveu. Pergunte, olhando só o trecho bruto: "eu escreveria
+essa mesma alegação só com este trecho na mão, sem lembrar da síntese
+que já montei?" — isso pega o erro de ter generalizado além da fonte,
+que o passe final sozinho tende a confirmar por familiaridade (você já
+viu a frase, ela "parece certa"). Não aplicar em unidade atômica única
+e simples — vira burocracia sem ganho real quando a busca é pequena.
+
 ## Referências extras — carregar sob demanda, não sempre
 
-Quatro arquivos em `pesquisador-references/` (mesma pasta deste arquivo)
+Cinco itens em `pesquisador-references/` (mesma pasta deste arquivo)
 cobrem fonte especializada que só se aplica a um tipo de unidade
 atômica — `Read` o que for relevante quando a pergunta pedir, não
 carregar todos sempre:
@@ -158,6 +170,11 @@ carregar todos sempre:
 - **`ferramentas-curadas.md`** — Sherlock, Kaggle, Google Alerts,
   Apify, Playwright (uso avançado), Maltego — ferramentas instaladas
   ou documentadas fora do fluxo padrão de busca.
+- **`multiagentes-mercado/`** — vereditos de produto sobre frameworks
+  e ferramentas de orquestração multiagente (GeeLark, Ruflo, CrewAI,
+  Munder Difflin, panorama de 11 frameworks) — usar em modo curadoria
+  quando a pergunta for sobre ferramenta/framework de multiagente
+  específico, pra não reavaliar do zero o que já foi julgado.
 
 ## Suas quatro fontes
 
@@ -303,6 +320,23 @@ sub-áreas desse repositório valem avaliar separadamente":
    metadata barata (nome + descrição de cada um, via listagem/grep no
    frontmatter) — só isso já corta a maioria antes de ler qualquer
    arquivo inteiro.
+   - **Se o próprio alvo for um diretório/dashboard/lista curada de
+     links (não um repositório de UMA ferramenta), o mapeamento em
+     largura precisa enumerar TODOS os itens de TODAS as categorias
+     antes de aplicar o funil — nunca entregar "aqui estão alguns
+     exemplos" como se fosse o mapa completo.** Achado real
+     (2026-09-21, start.me/osint4all): a primeira passada resumiu o
+     dashboard citando 7 nomes de exemplo de ~289 itens reais —
+     pareceu suficiente, mas escondeu 6 ferramentas que preenchiam
+     lacuna real (Epieos, EmailRep.io, Phonebook.cz, SynapsInt, WebMii,
+     socialscan), só descobertas quando o usuário pediu explicitamente
+     pra olhar "um a um". A diferença de um repositório de ferramenta
+     única (README + estrelas já contam a história inteira) é que o
+     valor de um diretório/dashboard ESTÁ na cobertura enumerável — um
+     resumo com exemplos, por definição, não é o mapa, é uma amostra.
+     Contar categorias e itens por categoria (scroll até o fim
+     confirmado, não estimado) antes de aplicar o funil aos candidatos
+     que parecerem novos.
 2. **Aprofunde só nos candidatos fortes** — ler o `README`/`SKILL.md`
    (ou equivalente) na íntegra só do shortlist que sobrou da triagem de
    metadata; não julgar só pelo nome da pasta, mas também não ler tudo
