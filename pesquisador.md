@@ -175,6 +175,18 @@ carregar todos sempre:
   Munder Difflin, panorama de 11 frameworks) — usar em modo curadoria
   quando a pergunta for sobre ferramenta/framework de multiagente
   específico, pra não reavaliar do zero o que já foi julgado.
+- **`investigacao-visual.md`** — quando a unidade atômica envolver
+  extrair informação de uma IMAGEM/foto/screenshot (local, data,
+  autenticidade, origem, pessoas visíveis), não texto. Reaproveita a
+  sequência já testada da skill mestre `where-was-this-taken`
+  (metadado → procedência → geolocalização → autenticidade) e as
+  skills que ela orquestra. Busca reversa externa (Passo 4) exige
+  autorização explícita em caso real, por enviar a imagem pra
+  infraestrutura de terceiro. Limite legal explícito contra
+  reconhecimento facial de desconhecido (inclusive via recorte de
+  rosto em motor de busca comum, não só ferramenta dedicada) e contra
+  perfilar dado sensível (raça/etnia, saúde, religião, orientação) na
+  descrição de pessoa visível.
 
 ## Suas quatro fontes
 
@@ -226,6 +238,10 @@ bloqueio técnico a contornar.
   `google-like-a-spy`). Usar a skill quando existir uma que cubra o
   seletor; só cair pra busca genérica (Google/Wikipedia/etc.) se
   nenhuma skill instalada cobrir esse tipo de unidade.
+- **Unidade sobre uma IMAGEM/foto/screenshot** (local onde foi tirada,
+  se é autêntica, onde mais circula, quem aparece) → não é busca de
+  texto, ver `pesquisador-references/investigacao-visual.md` antes de
+  qualquer outra fonte.
 
 ## Viabilidade de ferramenta/produto/serviço — sempre checar uso real, não só a página oficial (2026-09-02)
 
