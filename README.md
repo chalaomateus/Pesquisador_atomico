@@ -1,5 +1,8 @@
 # Pesquisador Atômico
 
+![Python](https://img.shields.io/badge/python-3.x-3776AB?logo=python&logoColor=white&style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
 Agente customizado para o Claude Code que decompõe qualquer pergunta de
 pesquisa em unidades atômicas — afirmações verificáveis isoladamente —
 antes de buscar qualquer coisa. Cada unidade recebe fonte apropriada,
