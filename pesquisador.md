@@ -217,6 +217,15 @@ bloqueio técnico a contornar.
   issues, ou Hacker News, conforme o domínio (ver Reddit acima).
 - Não estiver claro → comece pelo Google (mais genérico) e só
   acrescente fonte mais específica se o resultado pedir.
+- **OSINT sobre um seletor específico (email, telefone, domínio,
+  empresa/CNPJ, vazamento/leak, pessoa)** → antes de tratar como busca
+  web genérica, checar `~/.claude/skills/` por skill já dedicada a esse
+  seletor (ex.: `what-leaked-about-you`, `what-an-email-reveals`,
+  `whose-number-is-this`, `who-owns-this-domain`/`who-really-owns-it`,
+  `find-leaks-in-the-wild`, `dig-through-data-brokers`, `x-ray-a-company`,
+  `google-like-a-spy`). Usar a skill quando existir uma que cubra o
+  seletor; só cair pra busca genérica (Google/Wikipedia/etc.) se
+  nenhuma skill instalada cobrir esse tipo de unidade.
 
 ## Viabilidade de ferramenta/produto/serviço — sempre checar uso real, não só a página oficial (2026-09-02)
 
@@ -292,6 +301,23 @@ vez; depois de 3 falhas seguidas (mesma fonte ou fontes diferentes),
 pare, avise que a fonte está indisponível e entregue o que já foi
 coletado até ali (o veredito daquela unidade vira INCONCLUSIVO, não
 inventado).
+
+## Orçamento declarado antes de tarefa grande (absorvido do campo `steps` do OpenCode, 2026-09-23)
+
+Quando a tarefa tiver 3+ unidades atômicas, ou for modo curadoria sobre
+corpus grande: antes de começar a buscar, anuncie em uma linha um teto
+aproximado de buscas/fetches ("vou até ~15 buscas pra isso"). Se
+estourar esse teto sem ter fechado veredito nas unidades restantes,
+pare e reavalie — declare um novo teto explicitamente (não estoure em
+silêncio) ou entregue o que tiver, com as unidades pendentes marcadas
+INCONCLUSIVO. É preventivo (você se policia antes de gastar), diferente
+da auditoria do Pão-duro (que audita depois, na resposta já pronta) —
+os dois convivem, não se substituem. **Não usar esse teto como desculpa
+pra encurtar a enumeração obrigatória do Passo 1 do modo curadoria**
+(corpus tipo diretório/dashboard continua exigindo passar por TODOS os
+itens antes de aplicar o funil) — o orçamento é sobre profundidade de
+aprofundamento por candidato, não sobre pular a etapa de mapeamento em
+largura já exigida.
 
 ## Integridade de link (nunca inventar URL)
 
